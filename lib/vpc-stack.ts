@@ -1,12 +1,12 @@
 import { Construct, Stack, StackProps } from "@aws-cdk/core";
 import { Vpc, SecurityGroup, SubnetType, Port, Peer } from "@aws-cdk/aws-ec2";
 
-export interface AwsCdkVpcStackProps extends StackProps {
+export interface VpcStackProps extends StackProps {
   readonly prefix: string;
   readonly stage: string;
 }
 
-export class AwsCdkVpcStack extends Stack {
+export class VpcStack extends Stack {
   readonly vpc: Vpc;
   readonly ecsClusterSg: SecurityGroup;
   readonly elbSg: SecurityGroup;
@@ -15,7 +15,7 @@ export class AwsCdkVpcStack extends Stack {
   readonly ingressSg: SecurityGroup;
   readonly egressSg: SecurityGroup;
 
-  constructor(scope: Construct, id: string, props: AwsCdkVpcStackProps) {
+  constructor(scope: Construct, id: string, props: VpcStackProps) {
     super(scope, id, props);
 
     /**
@@ -36,14 +36,14 @@ export class AwsCdkVpcStack extends Stack {
         {
           cidrMask: 24,
           name: "ingress",
-          subnetType: SubnetType.PUBLIC,
+          subnetType: SubnetType.PUBLIC
         },
         {
           cidrMask: 26,
           name: "isolatedSubnet",
-          subnetType: SubnetType.ISOLATED,
-        },
-      ],
+          subnetType: SubnetType.ISOLATED
+        }
+      ]
     });
 
     /**
@@ -51,7 +51,7 @@ export class AwsCdkVpcStack extends Stack {
      */
     const efsSg = new SecurityGroup(this, `${prefix}-${stage}-EFS-SG`, {
       securityGroupName: `${prefix}-${stage}-EFS-SG`,
-      vpc,
+      vpc
     });
 
     const ecsClusterSg = new SecurityGroup(
@@ -59,13 +59,13 @@ export class AwsCdkVpcStack extends Stack {
       `${prefix}-${stage}-ECS-Cluster-SG`,
       {
         securityGroupName: `${prefix}-${stage}-ECS-Cluster-SG`,
-        vpc,
-      },
+        vpc
+      }
     );
 
     const elbSg = new SecurityGroup(this, `${prefix}-${stage}-ECS-ELB-SG`, {
       securityGroupName: `${prefix}-${stage}-ECS-ELB-SG`,
-      vpc,
+      vpc
     });
 
     const efsDevEc2Sg = new SecurityGroup(
@@ -73,25 +73,25 @@ export class AwsCdkVpcStack extends Stack {
       `${prefix}-${stage}-EFS-Dev-EC2-SG`,
       {
         securityGroupName: `${prefix}-${stage}-EFS-Dev-EC2-SG`,
-        vpc,
-      },
+        vpc
+      }
     );
 
     const rdsSg = new SecurityGroup(this, `${prefix}-${stage}-RDS-SG`, {
       securityGroupName: `${prefix}-${stage}-RDS-SG`,
-      vpc,
+      vpc
     });
 
     const ingressSg = new SecurityGroup(this, `${prefix}-${stage}-Ingress-SG`, {
       vpc,
       allowAllOutbound: false,
-      securityGroupName: `${prefix}-${stage}-Ingress-SG`,
+      securityGroupName: `${prefix}-${stage}-Ingress-SG`
     });
 
     const egressSg = new SecurityGroup(this, `${prefix}-${stage}-Egress-SG`, {
       vpc,
       allowAllOutbound: false,
-      securityGroupName: `${prefix}-${stage}-Egress-SG`,
+      securityGroupName: `${prefix}-${stage}-Egress-SG`
     });
 
     /**

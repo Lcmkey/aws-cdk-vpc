@@ -4,7 +4,7 @@ require("dotenv").config();
 import "source-map-support/register";
 import * as cdk from "@aws-cdk/core";
 
-import { AwsCdkVpcStack } from "../lib/aws-vpc-cdk-stack";
+import { VpcStack } from "../lib/vpc-stack";
 
 /**
  * Get variables from Env
@@ -13,7 +13,7 @@ const {
   PREFIX: prefix = "[STACK PREFIX NAME]",
   STAGE: stage = "[DEPLOYMENT STAGE]",
   CDK_ACCOUNT: accountId = "[AWS ACCOUNT ID]",
-  CDK_REGION: region = "ap-southeast-1",
+  CDK_REGION: region = "ap-southeast-1"
 } = process.env;
 
 /**
@@ -21,14 +21,14 @@ const {
  */
 const env = {
   account: accountId,
-  region: region,
+  region: region
 };
 
 const app = new cdk.App();
-new AwsCdkVpcStack(app, `${prefix}-${stage}-AwsCdkVpcStack`, {
+new VpcStack(app, `${prefix}-${stage}-VpcStack`, {
   env,
   prefix,
-  stage,
+  stage
 });
 
 app.synth();

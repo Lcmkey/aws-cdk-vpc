@@ -1,8 +1,8 @@
 {
-  "name": "aws-vpc-cdk",
+  "name": "aws-cdk-vpc",
   "version": "0.1.0",
   "bin": {
-    "aws-vpc-cdk": "bin/aws-vpc-cdk.js"
+    "aws-cdk-vpc": "bin/aws-cdk-vpc.js"
   },
   "scripts": {
     "build": "tsc",
