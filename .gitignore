@@ -1,4 +1,4 @@
-*.js
+
 !jest.config.js
 *.d.ts
 node_modules
@@ -12,3 +12,4 @@ cdk.out
 .build
 
 .env
+dist
